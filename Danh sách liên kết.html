@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Thi Kỹ Thuật Lập Trình - DSLK</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Prism.js Dracula Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --dracula-bg: #282a36;
+            --dracula-fg: #f8f8f2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #eff6ff;
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 3rem 5rem;
+            max-width: 1100px;
+            padding-bottom: 100px; /* Tránh bị footer đè */
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            color: #1e293b;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .badge {
+            display: inline-block;
+            background: #fee2e2;
+            color: #ef4444;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Code Blocks - Dracula Style Override */
+        pre[class*="language-"] {
+            background: var(--dracula-bg) !important;
+            border-radius: 8px !important;
+            margin: 1.5rem 0 !important;
+            position: relative;
+            padding: 1.5rem !important;
+        }
+
+        code[class*="language-"] {
+            font-family: 'Fira Code', monospace !important;
+            font-size: 0.9rem !important;
+            text-shadow: none !important;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #44475a;
+            color: #f8f8f2;
+            border: none;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+            background: var(--primary-color);
+        }
+
+        /* Comparison Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Footer Styles */
+        .sc-contact-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 99999;
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            font-family: Arial, sans-serif;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        .sc-footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .sc-left-content {
+            color: #9ca3af;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sc-brand-name {
+            font-weight: bold;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sc-right-content {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sc-social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .sc-social-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        .sc-tooltip {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            color: #333;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+
+        .sc-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+
+        .sc-social-btn:hover .sc-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .btn-phone { background: linear-gradient(135deg, #4ade80, #15803d); }
+        .btn-facebook { background: linear-gradient(135deg, #18ACFE, #0163E0); }
+        .btn-tiktok { background: linear-gradient(135deg, #374151, #000000); border: 1px solid #4b5563; }
+        .btn-instagram { background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); }
+
+        @media (max-width: 600px) {
+            .sc-footer-container { flex-direction: column-reverse; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2><span>💻</span> </h2>
+        <nav class="nav-list">
+            <div class="nav-item"><a href="#ly-thuyet" class="nav-link">1. Lý thuyết trọng tâm</a></div>
+            <div class="nav-item"><a href="#cau-truc" class="nav-link">2. Cấu trúc & Khởi tạo</a></div>
+            <div class="nav-item"><a href="#thao-tac" class="nav-link">3. Thao tác cơ bản</a></div>
+            <div class="nav-item"><a href="#xoa-node" class="nav-link">4. Thao tác Xóa</a></div>
+            <div class="nav-item"><a href="#thong-ke" class="nav-link">5. Thống kê & Tìm kiếm</a></div>
+            <div class="nav-item"><a href="#quan-ly-sv" class="nav-link">6. Bài toán Sinh Viên</a></div>
+            <div class="nav-item"><a href="#nang-cao" class="nav-link">7. Thao tác nâng cao</a></div>
+            <div class="nav-item"><a href="#loi-thuong-gap" class="nav-link">8. Lỗi thường gặp</a></div>
+            <div class="nav-item"><a href="#de-thi" class="nav-link">9. Đề thi mẫu</a></div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h1>Danh sách liên kết </h1>
+            <p style="color: var(--text-muted)">Học phần: Kỹ thuật lập trình </p>
+        </header>
+
+        <!-- PHẦN 1: LÝ THUYẾT (GIỮ NGUYÊN) -->
+        <section id="ly-thuyet">
+            <h2>1. Lý thuyết trọng tâm</h2>
+            <div class="card">
+                <p><strong>Danh sách liên kết (Linked List)</strong> là một cấu trúc dữ liệu động, trong đó các phần tử được lưu trữ tại các vị trí rời rạc trong bộ nhớ và được liên kết với nhau bằng các con trỏ.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Đặc điểm</th>
+                            <th>Mảng (Array)</th>
+                            <th>DSLK (Linked List)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Kích thước</td>
+                            <td>Cố định</td>
+                            <td>Linh hoạt</td>
+                        </tr>
+                        <tr>
+                            <td>Truy cập</td>
+                            <td>Ngẫu nhiên O(1)</td>
+                            <td>Tuần tự O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Thao tác Thêm/Xóa</td>
+                            <td>Chậm (Dời phần tử)</td>
+                            <td>Nhanh (Đổi con trỏ)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PHẦN 2: CẤU TRÚC (GIỮ NGUYÊN) -->
+        <section id="cau-truc">
+            <h2>2. Cấu trúc & Khởi tạo</h2>
+            <p>Mỗi phần tử trong danh sách được gọi là một <code>Node</code>, bao gồm phần dữ liệu và phần liên kết.</p>
+            <pre class="language-c"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// Dinh nghia cau truc Node
+struct Node {
+    int data;
+    struct Node *next;
+};
+typedef struct Node NODE;
+
+// Dinh nghia cau truc quan ly danh sach
+struct List {
+    NODE *pHead;
+    NODE *pTail;
+};
+typedef struct List LIST;
+
+// Khoi tao danh sach rong
+void Init(LIST *l) {
+    l->pHead = l->pTail = NULL;
+}
+
+// Tao mot Node moi
+NODE* CreateNode(int x) {
+    NODE *p = (NODE*)malloc(sizeof(NODE));
+    if (p == NULL) return NULL;
+    p->data = x;
+    p->next = NULL;
+    return p;
+}</code></pre>
+        </section>
+
+        <!-- PHẦN 3: THÊM (GIỮ NGUYÊN + BỔ SUNG) -->
+        <section id="thao-tac">
+            <h2>3. Thao tác thêm vào danh sách</h2>
+            <div class="card">
+                <h3>Thêm vào đầu (AddHead)</h3>
+                <pre class="language-c"><code>void AddHead(LIST *l, NODE *p) {
+    if (l->pHead == NULL) {
+        l->pHead = l->pTail = p;
+    } else {
+        p->next = l->pHead;
+        l->pHead = p;
+    }
+}</code></pre>
+                <h3>Thêm vào cuối (AddTail)</h3>
+                <pre class="language-c"><code>void AddTail(LIST *l, NODE *p) {
+    if (l->pHead == NULL) {
+        l->pHead = l->pTail = p;
+    } else {
+        l->pTail->next = p;
+        l->pTail = p;
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- PHẦN 4: XÓA (MỚI) -->
+        <section id="xoa-node">
+            <h2>4. Thao tác Xóa</h2>
+            <div class="card">
+                <span class="badge">Hay ra thi</span>
+                <h3>Xóa đầu danh sách</h3>
+                <pre class="language-c"><code>void RemoveHead(LIST *l) {
+    if (l->pHead == NULL) return;
+    NODE *p = l->pHead;
+    l->pHead = l->pHead->next;
+    free(p);
+    if (l->pHead == NULL) l->pTail = NULL;
+}</code></pre>
+                <h3>Xóa Node có giá trị X</h3>
+                <pre class="language-c"><code>void RemoveX(LIST *l, int x) {
+    if (l->pHead == NULL) return;
+    if (l->pHead->data == x) {
+        RemoveHead(l);
+        return;
+    }
+    NODE *prev = l->pHead;
+    NODE *curr = l->pHead->next;
+    while (curr != NULL) {
+        if (curr->data == x) {
+            prev->next = curr->next;
+            if (curr == l->pTail) l->pTail = prev;
+            free(curr);
+            return;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- PHẦN 5: THỐNG KÊ (MỚI) -->
+        <section id="thong-ke">
+            <h2>5. Thống kê & Tìm kiếm</h2>
+            <div class="card">
+                <h3>Tìm giá trị Max trong DSLK</h3>
+                <pre class="language-c"><code>int FindMax(LIST l) {
+    if (l.pHead == NULL) return -1;
+    int max = l.pHead->data;
+    for (NODE *p = l.pHead->next; p != NULL; p = p->next) {
+        if (p->data > max) max = p->data;
+    }
+    return max;
+}</code></pre>
+                <h3>Tính trung bình cộng các số lẻ</h3>
+                <pre class="language-c"><code>float AverageOdd(LIST l) {
+    int sum = 0, count = 0;
+    for (NODE *p = l.pHead; p != NULL; p = p->next) {
+        if (p->data % 2 != 0) {
+            sum += p->data;
+            count++;
+        }
+    }
+    if (count == 0) return 0;
+    return (float)sum / count;
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- PHẦN 6: QUẢN LÝ SINH VIÊN (MỚI) -->
+        <section id="quan-ly-sv">
+            <h2>6. Bài toán Quản lý Sinh Viên</h2>
+            <div class="card">
+                <span class="badge">Dạng bài thực tế</span>
+                <p>Cấu trúc này thường dùng cho câu 2 trong đề thi (quản lý một đối tượng thực tế).</p>
+                <pre class="language-c"><code>struct SinhVien {
+    char maSV[15];
+    char tenSV[50];
+    float diem;
+};
+typedef struct SinhVien SV;
+
+struct NodeSV {
+    SV data;
+    struct NodeSV *pNext;
+};
+typedef struct NodeSV NODESV;
+
+// Tim sinh vien co diem cao nhat
+void PrintBestStudent(NODESV *pHead) {
+    if (pHead == NULL) return;
+    float maxDiem = pHead->data.diem;
+    for (NODESV *p = pHead; p != NULL; p = p->pNext) {
+        if (p->data.diem > maxDiem) maxDiem = p->data.diem;
+    }
+    printf("Cac sinh vien diem cao nhat:\n");
+    for (NODESV *p = pHead; p != NULL; p = p->pNext) {
+        if (p->data.diem == maxDiem) {
+            printf("%s - %s\n", p->data.maSV, p->data.tenSV);
+        }
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- PHẦN 7: NÂNG CAO (GIỮ NGUYÊN SORT + BỔ SUNG REVERSE) -->
+        <section id="nang-cao">
+            <h2>7. Thao tác nâng cao</h2>
+            <div class="card">
+                <h3>Sắp xếp tăng dần (GIỮ NGUYÊN)</h3>
+                <pre class="language-c"><code>void Sort(LIST *l) {
+    for (NODE *p = l->pHead; p != NULL; p = p->next) {
+        for (NODE *q = p->next; q != NULL; q = q->next) {
+            if (p->data > q->data) {
+                int tmp = p->data;
+                p->data = q->data;
+                q->data = tmp;
+            }
+        }
+    }
+}</code></pre>
+                <h3>Đảo ngược danh sách (Kỹ thuật 3 con trỏ)</h3>
+                <pre class="language-c"><code>void Reverse(LIST *l) {
+    NODE *prev = NULL, *curr = l->pHead, *next = NULL;
+    l->pTail = l->pHead;
+    while (curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    l->pHead = prev;
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- PHẦN 8: LỖI THƯỜNG GẶP (GIỮ NGUYÊN) -->
+        <section id="loi-thuong-gap">
+            <h2>8. Các lỗi sinh viên hay mắc</h2>
+            <div class="card" style="border-left: 4px solid #ef4444;">
+                <ul>
+                    <li><strong>Quên giải phóng bộ nhớ:</strong> Luôn sử dụng <code>free()</code> khi xóa Node để tránh rò rỉ RAM.</li>
+                    <li><strong>Mất dấu pHead:</strong> Sử dụng trực tiếp <code>l->pHead</code> để duyệt danh sách sẽ làm mất địa chỉ đầu. Hãy dùng biến tạm.</li>
+                    <li><strong>Truy cập con trỏ NULL:</strong> Luôn kiểm tra <code>p != NULL</code> trước khi gọi <code>p->next</code>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PHẦN 9: ĐỀ THI (GIỮ NGUYÊN + MỞ RỘNG) -->
+        <section id="de-thi">
+            <h2>9. Đề thi mẫu (Tham khảo)</h2>
+            <div class="card">
+                <p><strong>Câu 1:</strong> Viết hàm tính tổng các số chẵn trong Danh sách liên kết đơn các số nguyên.</p>
+                <pre class="language-c"><code>int SumEven(LIST l) {
+    int sum = 0;
+    for (NODE *p = l.pHead; p != NULL; p = p->next) {
+        if (p->data % 2 == 0) {
+            sum += p->data;
+        }
+    }
+    return sum;
+}</code></pre>
+                <p><strong>Câu 2:</strong> Viết hàm đếm xem có bao nhiêu số nguyên tố trong DSLK.</p>
+                <pre class="language-c"><code>int isPrime(int n) {
+    if (n < 2) return 0;
+    for (int i = 2; i * i <= n; i++)
+        if (n % i == 0) return 0;
+    return 1;
+}
+
+int CountPrimes(LIST l) {
+    int count = 0;
+    for (NODE *p = l.pHead; p != NULL; p = p->next) {
+        if (isPrime(p->data)) count++;
+    }
+    return count;
+}</code></pre>
+            </div>
+        </section>
+
+        FOOTER (GIỮ NGUYÊN)
+        <footer class="sc-contact-footer">
+            <div class="sc-footer-container">
+                <div class="sc-left-content">
+                    <span>Design by <span class="sc-brand-name">Sơn Cris</span></span>
+                </div>
+                <div class="sc-right-content">
+                    <a href="tel:0327208690" class="sc-social-btn btn-phone">
+                        <i class="fas fa-phone-alt"></i>
+                        <span class="sc-tooltip">0327.208.690</span>
+                    </a>
+                    <a href="https://web.facebook.com/sonsadboiz.12" target="_blank" class="sc-social-btn btn-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        <span class="sc-tooltip">Facebook</span>
+                    </a>
+                    <a href="https://www.tiktok.com/@chubodoihaybuon" target="_blank" class="sc-social-btn btn-tiktok">
+                        <i class="fab fa-tiktok"></i>
+                        <span class="sc-tooltip">TikTok</span>
+                    </a>
+                    <a href="https://www.instagram.com/son_cris3012/?__pwa=1" target="_blank" class="sc-social-btn btn-instagram">
+                        <i class="fab fa-instagram"></i>
+                        <span class="sc-tooltip">Instagram</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Prism.js Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    
+    <script>
+        // Copy Code Functionality
+        document.querySelectorAll('pre').forEach((pre) => {
+            const button = document.createElement('button');
+            button.innerText = 'Copy';
+            button.className = 'copy-btn';
+            pre.appendChild(button);
+
+            button.addEventListener('click', () => {
+                const code = pre.querySelector('code').innerText;
+                const dummy = document.createElement('textarea');
+                document.body.appendChild(dummy);
+                dummy.value = code;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                
+                button.innerText = 'Đã chép!';
+                setTimeout(() => {
+                    button.innerText = 'Copy';
+                }, 2000);
+            });
+        });
+
+        // Smooth Scroll for Sidebar
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
