@@ -3,22 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách liên kết</title>
+    <title>Ôn Thi Kỹ Thuật Lập Trình - MTA Christmas</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
     <!-- Prism.js Dracula Theme -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --bg-color: #f8fafc;
+            /* Christmas Palette */
+            --primary-color: #D42426; /* Christmas Red - Đỏ đô */
+            --accent-color: #165B33;  /* Pine Green - Xanh thông */
+            --gold-color: #F8B229;    /* Gold for highlights */
+            
+            --bg-color: #f0f7f4;      /* Nhạt xanh nhẹ làm nền tuyết */
             --sidebar-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
+            --card-bg: #ffffff;
             --dracula-bg: #282a36;
             --dracula-fg: #f8f8f2;
+        }
+
+        /* --- DARK MODE (AURORA EFFECT) --- */
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --sidebar-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --card-bg: #1e293b;
+        }
+
+        body.dark-mode::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, #000000, #1a202c, #0f3460, #533483);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: aurora 15s ease infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         * {
@@ -33,17 +69,77 @@
             color: var(--text-main);
             line-height: 1.6;
             display: flex;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Sidebar Styling */
+        /* --- SNOWFLAKE EFFECT --- */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #ddd;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 0 5px #000;
+            user-select: none;
+            z-index: 9998;
+            pointer-events: none;
+            animation-name: fall;
+            animation-duration: 10s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- SIDEBAR --- */
         .sidebar {
             width: 280px;
             height: 100vh;
             background: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
+            border-right: 2px solid var(--accent-color);
             position: fixed;
             padding: 2rem 1.5rem;
             overflow-y: auto;
+            z-index: 100;
+            transition: background 0.3s;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px dashed var(--primary-color);
+            padding-bottom: 1rem;
+        }
+
+        .logo-mta {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            transition: transform 0.3s;
+        }
+        
+        .logo-mta:hover {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .christmas-tree {
+            font-size: 3rem;
+            margin-top: 10px;
+            filter: drop-shadow(0 0 5px gold);
+            animation: flashTree 2s infinite alternate;
+        }
+
+        @keyframes flashTree {
+            0% { filter: brightness(100%) drop-shadow(0 0 2px gold); transform: scale(1); }
+            50% { filter: brightness(110%) drop-shadow(0 0 5px gold); }
+            100% { filter: brightness(130%) drop-shadow(0 0 15px red); transform: scale(1.05); }
         }
 
         .sidebar h2 {
@@ -53,15 +149,12 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-family: 'Mountains of Christmas', cursive;
+            font-weight: 700;
         }
 
-        .nav-list {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 0.5rem;
-        }
+        .nav-list { list-style: none; }
+        .nav-item { margin-bottom: 0.5rem; }
 
         .nav-link {
             text-decoration: none;
@@ -71,32 +164,89 @@
             padding: 0.5rem 0.75rem;
             border-radius: 6px;
             transition: all 0.2s;
+            border-left: 3px solid transparent;
         }
 
         .nav-link:hover {
-            background: #eff6ff;
+            background: #fef2f2;
             color: var(--primary-color);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        body.dark-mode .nav-link:hover {
+            background: #334155;
         }
 
-        /* Main Content */
+        /* --- DARK MODE TOGGLE BTN --- */
+        .theme-toggle {
+            margin-top: 1rem;
+            padding: 8px 16px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            width: 100%;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            background: var(--primary-color);
+        }
+
+        /* --- MAIN CONTENT --- */
         .main-content {
             margin-left: 280px;
             flex: 1;
             padding: 3rem 5rem;
             max-width: 1100px;
-            padding-bottom: 100px; /* Tránh bị footer đè */
+            padding-bottom: 100px;
+            position: relative;
         }
 
         header {
             margin-bottom: 3rem;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--accent-color);
             padding-bottom: 1.5rem;
+            position: relative;
+        }
+
+        /* Animated Header Decor */
+        .header-decor {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 2.5rem;
+            display: flex;
+            gap: 15px;
+        }
+
+        .sway-anim {
+            display: inline-block;
+            animation: sway 3s infinite ease-in-out;
+            transform-origin: top center;
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
         }
 
         h1 {
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 0px #fff, 3px 3px 0px var(--accent-color);
+        }
+        
+        body.dark-mode h1 {
+            text-shadow: 2px 2px 0px #333, 3px 3px 0px var(--accent-color);
         }
 
         h2 {
@@ -104,84 +254,69 @@
             margin-top: 2.5rem;
             margin-bottom: 1rem;
             color: var(--primary-color);
-            border-left: 4px solid var(--primary-color);
+            border-left: 5px solid var(--accent-color);
             padding-left: 1rem;
+            background: linear-gradient(to right, rgba(255,0,0,0.1), transparent);
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-radius: 0 10px 10px 0;
         }
 
         h3 {
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
             font-size: 1.25rem;
-            color: #1e293b;
+            color: var(--accent-color);
+            font-weight: 700;
         }
+        
+        body.dark-mode h3 { color: #4ade80; }
 
-        p {
-            margin-bottom: 1rem;
-        }
+        p { margin-bottom: 1rem; }
 
         .card {
-            background: white;
-            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s, border 0.3s;
+        }
+        
+        .card::after {
+            content: '🌿';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+            opacity: 0.5;
+            transform: rotate(45deg);
         }
 
         .badge {
             display: inline-block;
-            background: #fee2e2;
-            color: #ef4444;
-            padding: 2px 8px;
-            border-radius: 4px;
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            box-shadow: 0 2px 4px rgba(212, 36, 38, 0.4);
         }
 
-        /* Code Blocks - Dracula Style Override */
-        pre[class*="language-"] {
-            background: var(--dracula-bg) !important;
-            border-radius: 8px !important;
-            margin: 1.5rem 0 !important;
-            position: relative;
-            padding: 1.5rem !important;
-        }
-
-        code[class*="language-"] {
-            font-family: 'Fira Code', monospace !important;
-            font-size: 0.9rem !important;
-            text-shadow: none !important;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #44475a;
-            color: #f8f8f2;
-            border: none;
-            padding: 4px 8px;
-            font-size: 0.75rem;
-            border-radius: 4px;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .copy-btn:hover {
-            opacity: 1;
-            background: var(--primary-color);
-        }
-
-        /* Comparison Table */
+        /* --- TABLES --- */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
-            background: white;
+            background: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
+            border: 1px solid var(--accent-color);
         }
 
         th, td {
@@ -191,147 +326,462 @@
         }
 
         th {
-            background-color: #f1f5f9;
+            background-color: var(--accent-color);
+            color: white;
             font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 1.5rem;
-            }
+        tr:hover td {
+            background-color: rgba(22, 91, 51, 0.1);
         }
 
-        /* Footer Styles */
-        .sc-contact-footer {
-            position: fixed;
-            bottom: 0;
+        /* --- CODE BLOCKS (MACOS STYLE) --- */
+        pre[class*="language-"] {
+            background: var(--dracula-bg) !important;
+            border-radius: 10px !important;
+            margin: 1.5rem 0 !important;
+            border: 1px solid #44475a;
+            position: relative;
+            padding: 3rem 1.5rem 1.5rem 1.5rem !important; /* Top padding for Mac dots */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        /* Macbook Dots */
+        pre[class*="language-"]::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff5f56; /* Red */
+            box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f; /* Yellow & Green */
+            z-index: 10;
+        }
+
+        /* Header bar background for code block */
+        pre[class*="language-"]::after {
+            content: '';
+            position: absolute;
+            top: 0;
             left: 0;
             width: 100%;
-            z-index: 99999;
-            background: rgba(17, 24, 39, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-            font-family: Arial, sans-serif;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
-
-        .sc-footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .sc-left-content {
-            color: #9ca3af;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sc-brand-name {
-            font-weight: bold;
-            background: linear-gradient(to right, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .sc-right-content {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .sc-social-btn {
-            width: 40px;
             height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            color: white;
-            font-size: 18px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            border: none;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .sc-social-btn:hover {
-            transform: translateY(-3px) scale(1.1);
-        }
-
-        .sc-tooltip {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: white;
-            color: #333;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid #44475a;
+            border-radius: 10px 10px 0 0;
             pointer-events: none;
         }
 
-        .sc-tooltip::after {
-            content: '';
+        .copy-btn {
             position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: white transparent transparent transparent;
+            top: 8px;
+            right: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #f8f8f2;
+            border: 1px solid #6272a4;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.2s;
         }
 
-        .sc-social-btn:hover .sc-tooltip {
+        .copy-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* --- ANIMATIONS FIXED --- */
+        
+        /* Santa dropping gifts (Right Fixed) */
+        .santa-container {
+            position: fixed;
+            top: 80px;
+            right: 40px;
+            z-index: 50;
+            text-align: center;
+        }
+        .santa {
+            font-size: 4rem;
+            display: block;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            animation: hoverSanta 4s ease-in-out infinite;
+        }
+        @keyframes hoverSanta {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .gift-stream {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .gift {
+            font-size: 1.5rem;
+            position: absolute;
+            opacity: 0;
+            animation: dropGift 3s infinite linear;
+        }
+        .gift:nth-child(2) { animation-delay: 1.5s; }
+
+        @keyframes dropGift {
+            0% { top: 0; opacity: 1; transform: rotate(0deg) scale(0.5); }
+            20% { opacity: 1; transform: rotate(45deg) scale(1); }
+            80% { opacity: 1; }
+            100% { top: 400px; opacity: 0; transform: rotate(180deg) scale(0.8); }
+        }
+
+        /* Snowman spitting snow (Left Bottom Fixed) */
+        .snowman-container {
+            position: fixed;
+            bottom: 100px;
+            left: 300px; /* Right next to sidebar */
+            z-index: 50;
+        }
+        
+        .snowman {
+            font-size: 4rem;
+            display: block;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
+            animation: bounceSnowman 2s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+        @keyframes bounceSnowman {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.95) scaleX(1.05); }
+        }
+
+        .snow-spit {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .spit-flake {
+            font-size: 1.5rem;
+            color: #89CFF0;
+            position: absolute;
+            opacity: 0;
+            animation: spitSnow 2.5s infinite ease-out;
+        }
+        .spit-flake:nth-child(2) { animation-delay: 0.8s; left: -15px; font-size: 1rem; }
+        .spit-flake:nth-child(3) { animation-delay: 1.6s; left: 15px; font-size: 1.2rem; }
+
+        @keyframes spitSnow {
+            0% { top: 10px; opacity: 0; scale: 0.5; }
+            10% { opacity: 1; }
+            100% { top: -200px; opacity: 0; scale: 1.2; transform: translateX(var(--drift, 0px)) rotate(360deg); }
+        }
+
+        /* --- POPUP MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s;
+        }
+        .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-
-        .btn-phone { background: linear-gradient(135deg, #4ade80, #15803d); }
-        .btn-facebook { background: linear-gradient(135deg, #18ACFE, #0163E0); }
-        .btn-tiktok { background: linear-gradient(135deg, #374151, #000000); border: 1px solid #4b5563; }
-        .btn-instagram { background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); }
-
-        @media (max-width: 600px) {
-            .sc-footer-container { flex-direction: column-reverse; gap: 10px; }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 0 20px gold;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-title {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .close-popup {
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .close-popup:hover { background: var(--primary-color); }
+        .modal-decor { font-size: 3rem; margin: 10px 0; }
+
+        /* --- FOOTER (UNCHANGED CSS) --- */
+        .sc-contact-footer {
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            border-top: 3px solid var(--primary-color);
+            padding: 15px 0;
+            width: 100%;
+        }
+        .sc-footer-container {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1100px; margin: 0 auto; padding: 0 20px;
+        }
+        .sc-brand-name {
+            background: linear-gradient(to right, var(--primary-color), #fca5a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        .sc-social-btn {
+            width: 35px; height: 35px; border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; color: white;
+            margin-left: 10px; text-decoration: none; position: relative;
+        }
+        .btn-phone { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+        .btn-facebook { background: linear-gradient(135deg, #18ACFE, #0163E0); }
+        .btn-tiktok { background: black; border: 1px solid #333; }
+        .btn-instagram { background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); }
+        .sc-tooltip { display: none; } /* Simplified for this view */
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; padding: 1rem; border-right: none; border-bottom: 2px solid var(--accent-color); }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .santa-container { top: 10px; right: 10px; transform: scale(0.6); position: absolute; }
+            .snowman-container { display: none; }
+            .header-decor { display: none; }
+            .modal-content { width: 90%; }
+        }
+        .sc-contact-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99999; /* Đảm bảo luôn nổi lên trên */
+    background: rgba(17, 24, 39, 0.85); /* Màu nền tối mờ (Gray 900) */
+    backdrop-filter: blur(10px); /* Hiệu ứng kính mờ */
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+/* SC-Footer-Container: Căn giữa nội dung */
+.sc-footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Tự xuống dòng trên màn hình nhỏ */
+}
+
+/* Phần chữ bên trái */
+.sc-left-content {
+    color: #9ca3af; /* Gray 400 */
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sc-brand-name {
+    font-weight: bold;
+    background: linear-gradient(to right, #60a5fa, #c084fc); /* Gradient chữ */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Phần nút bấm bên phải */
+.sc-right-content {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Style chung cho các nút (SC-Social-Btn) */
+.sc-social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.sc-social-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+}
+
+/* Tooltip hiển thị tên/sdt khi di chuột vào */
+.sc-tooltip {
+    position: absolute;
+    bottom: 50px; /* Hiện phía trên nút */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    pointer-events: none;
+}
+ 
+/* Mũi tên nhỏ của tooltip */
+.sc-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+
+.sc-social-btn:hover .sc-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- MÀU SẮC TỪNG NÚT --- */
+ 
+/* Điện thoại: Xanh lá */
+.btn-phone {
+    background: linear-gradient(135deg, #4ade80, #15803d);
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.4);
+}
+.btn-phone:hover { box-shadow: 0 6px 15px rgba(22, 163, 74, 0.6); }
+
+/* Rung lắc nhẹ cho điện thoại */
+@keyframes sc-wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+.btn-phone:hover i {
+    animation: sc-wiggle 0.3s ease-in-out infinite;
+}
+
+/* Facebook: Xanh dương */
+.btn-facebook {
+    background: linear-gradient(135deg, #18ACFE, #0163E0);
+    box-shadow: 0 4px 10px rgba(1, 99, 224, 0.4);
+}
+.btn-facebook:hover { box-shadow: 0 6px 15px rgba(1, 99, 224, 0.6); }
+
+/* TikTok: Đen xám */
+.btn-tiktok {
+    background: linear-gradient(135deg, #374151, #000000);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 1px solid #4b5563;
+}
+.btn-tiktok:hover { box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2); border-color: #ec4899; }
+ 
+/* Instagram: Tím Cam */
+.btn-instagram {
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+    box-shadow: 0 4px 10px rgba(253, 29, 29, 0.4);
+}
+.btn-instagram:hover { box-shadow: 0 6px 15px rgba(253, 29, 29, 0.6); }
+
+/* Responsive cho điện thoại: Xếp dọc nếu cần hoặc căn giữa */
+@media (max-width: 600px) {
+    .sc-footer-container {
+        flex-direction: column-reverse; /* Đảo ngược để icon lên trên, chữ xuống dưới */
+        gap: 10px;
+    }
+    .sc-left-content {
+        font-size: 12px;
+    }
+    .sc-social-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
     </style>
 </head>
 <body>
 
+    <!-- Popup Modal -->
+    <div class="modal-overlay" id="welcomeModal">
+        <div class="modal-content">
+            <div class="modal-decor">🎄🎅🎁</div>
+            <h2 class="modal-title">Merry Christmas!</h2>
+            <p>Chúc bạn thi tốt môn<br><strong>Kỹ thuật lập trình</strong></p>
+            <button class="close-popup" onclick="closeModal()">Cảm ơn!</button>
+        </div>
+    </div>
+
+    <!-- Santa Animation Fixed -->
+    <div class="santa-container">
+        <div class="santa">🎅</div>
+        <div class="gift-stream">
+            <div class="gift">🎁</div>
+            <div class="gift">🎁</div>
+        </div>
+    </div>
+
+    <!-- Snowman Animation Fixed -->
+    <div class="snowman-container">
+        <div class="snow-spit">
+            <div class="spit-flake" style="--drift: -30px;">❄️</div>
+            <div class="spit-flake" style="--drift: 30px;">❄️</div>
+            <div class="spit-flake" style="--drift: 0px;">❄️</div>
+        </div>
+        <div class="snowman">☃️</div>
+    </div>
+
     <aside class="sidebar">
-        <h2><span></span> </h2>
-        <nav class="nav-list">
-            <div class="nav-item"><a href="#ly-thuyet" class="nav-link">1. Lý thuyết trọng tâm</a></div>
+        <div class="logo-container">
+            <!-- Updated Logo MTA -->
+            <img src="https://upload.wikimedia.org/wikipedia/vi/0/0e/Logo_MTA_new.png" alt="MTA Logo" class="logo-mta">
+            <!-- Flashing Tree -->
+            <div class="christmas-tree">🎄</div>
+        </div>
+        
+        <!-- Dark Mode Toggle -->
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-adjust"></i> Chế độ tối
+        </button>
+
+        <nav class="nav-list" style="margin-top: 1rem;">
+            <div class="nav-item"><a href="#ly-thuyet" class="nav-link"><i class="fas fa-star" style="color: gold; margin-right:5px;"></i> 1. Lý thuyết trọng tâm</a></div>
             <div class="nav-item"><a href="#cau-truc" class="nav-link">2. Cấu trúc & Khởi tạo</a></div>
             <div class="nav-item"><a href="#thao-tac" class="nav-link">3. Thao tác cơ bản</a></div>
             <div class="nav-item"><a href="#xoa-node" class="nav-link">4. Thao tác Xóa</a></div>
@@ -345,11 +795,16 @@
 
     <main class="main-content">
         <header>
-            <h1>Danh sách liên kết </h1>
-            <p style="color: var(--text-muted)">Học phần: Kỹ thuật lập trình </p>
+            <div class="header-decor">
+                <span class="sway-anim">🦌</span>
+                <span class="sway-anim" style="animation-delay: 0.5s">🍪</span>
+                <span class="sway-anim" style="animation-delay: 1s">🔔</span>
+            </div>
+            <h1>Danh sách liên kết <span style="font-size: 0.6em; vertical-align: middle; color: var(--primary-color);">(MTA Edition)</span></h1>
+            <p style="color: var(--text-muted)">Học phần: Kỹ thuật lập trình - <span style="color: var(--accent-color); font-weight: bold;">Merry Christmas! 🎄</span></p>
         </header>
 
-        <!-- PHẦN 1: LÝ THUYẾT (GIỮ NGUYÊN) -->
+        <!-- PHẦN 1: LÝ THUYẾT -->
         <section id="ly-thuyet">
             <h2>1. Lý thuyết trọng tâm</h2>
             <div class="card">
@@ -383,7 +838,7 @@
             </div>
         </section>
 
-        <!-- PHẦN 2: CẤU TRÚC (GIỮ NGUYÊN) -->
+        <!-- PHẦN 2: CẤU TRÚC -->
         <section id="cau-truc">
             <h2>2. Cấu trúc & Khởi tạo</h2>
             <p>Mỗi phần tử trong danh sách được gọi là một <code>Node</code>, bao gồm phần dữ liệu và phần liên kết.</p>
@@ -419,7 +874,7 @@ NODE* CreateNode(int x) {
 }</code></pre>
         </section>
 
-        <!-- PHẦN 3: THÊM (GIỮ NGUYÊN + BỔ SUNG) -->
+        <!-- PHẦN 3: THÊM -->
         <section id="thao-tac">
             <h2>3. Thao tác thêm vào danh sách</h2>
             <div class="card">
@@ -444,7 +899,7 @@ NODE* CreateNode(int x) {
             </div>
         </section>
 
-        <!-- PHẦN 4: XÓA (MỚI) -->
+        <!-- PHẦN 4: XÓA -->
         <section id="xoa-node">
             <h2>4. Thao tác Xóa</h2>
             <div class="card">
@@ -480,7 +935,7 @@ NODE* CreateNode(int x) {
             </div>
         </section>
 
-        <!-- PHẦN 5: THỐNG KÊ (MỚI) -->
+        <!-- PHẦN 5: THỐNG KÊ -->
         <section id="thong-ke">
             <h2>5. Thống kê & Tìm kiếm</h2>
             <div class="card">
@@ -508,11 +963,11 @@ NODE* CreateNode(int x) {
             </div>
         </section>
 
-        <!-- PHẦN 6: QUẢN LÝ SINH VIÊN (MỚI) -->
+        <!-- PHẦN 6: QUẢN LÝ SINH VIÊN -->
         <section id="quan-ly-sv">
             <h2>6. Bài toán Quản lý Sinh Viên</h2>
             <div class="card">
-                <span class="badge">Dạng bài thực tế</span>
+                <span class="badge" style="background: var(--accent-color);">Dạng bài thực tế</span>
                 <p>Cấu trúc này thường dùng cho câu 2 trong đề thi (quản lý một đối tượng thực tế).</p>
                 <pre class="language-c"><code>struct SinhVien {
     char maSV[15];
@@ -544,11 +999,11 @@ void PrintBestStudent(NODESV *pHead) {
             </div>
         </section>
 
-        <!-- PHẦN 7: NÂNG CAO (GIỮ NGUYÊN SORT + BỔ SUNG REVERSE) -->
+        <!-- PHẦN 7: NÂNG CAO -->
         <section id="nang-cao">
             <h2>7. Thao tác nâng cao</h2>
             <div class="card">
-                <h3>Sắp xếp tăng dần (GIỮ NGUYÊN)</h3>
+                <h3>Sắp xếp tăng dần</h3>
                 <pre class="language-c"><code>void Sort(LIST *l) {
     for (NODE *p = l->pHead; p != NULL; p = p->next) {
         for (NODE *q = p->next; q != NULL; q = q->next) {
@@ -575,10 +1030,10 @@ void PrintBestStudent(NODESV *pHead) {
             </div>
         </section>
 
-        <!-- PHẦN 8: LỖI THƯỜNG GẶP (GIỮ NGUYÊN) -->
+        <!-- PHẦN 8: LỖI THƯỜNG GẶP -->
         <section id="loi-thuong-gap">
             <h2>8. Các lỗi sinh viên hay mắc</h2>
-            <div class="card" style="border-left: 4px solid #ef4444;">
+            <div class="card" style="border-left: 5px solid #ef4444; background: rgba(239, 68, 68, 0.1);">
                 <ul>
                     <li><strong>Quên giải phóng bộ nhớ:</strong> Luôn sử dụng <code>free()</code> khi xóa Node để tránh rò rỉ RAM.</li>
                     <li><strong>Mất dấu pHead:</strong> Sử dụng trực tiếp <code>l->pHead</code> để duyệt danh sách sẽ làm mất địa chỉ đầu. Hãy dùng biến tạm.</li>
@@ -587,7 +1042,7 @@ void PrintBestStudent(NODESV *pHead) {
             </div>
         </section>
 
-        <!-- PHẦN 9: ĐỀ THI (GIỮ NGUYÊN + MỞ RỘNG) -->
+        <!-- PHẦN 9: ĐỀ THI -->
         <section id="de-thi">
             <h2>9. Đề thi mẫu (Tham khảo)</h2>
             <div class="card">
@@ -619,32 +1074,42 @@ int CountPrimes(LIST l) {
             </div>
         </section>
 
-        
-        <footer class="sc-contact-footer">
-            <div class="sc-footer-container">
-                <div class="sc-left-content">
-                    <span>Design by <span class="sc-brand-name">Sơn Cris</span></span>
-                </div>
-                <div class="sc-right-content">
-                    <a href="tel:0327208690" class="sc-social-btn btn-phone">
-                        <i class="fas fa-phone-alt"></i>
-                        <span class="sc-tooltip">0327.208.690</span>
-                    </a>
-                    <a href="https://web.facebook.com/sonsadboiz.12" target="_blank" class="sc-social-btn btn-facebook">
-                        <i class="fab fa-facebook-f"></i>
-                        <span class="sc-tooltip">Facebook</span>
-                    </a>
-                    <a href="https://www.tiktok.com/@chubodoihaybuon" target="_blank" class="sc-social-btn btn-tiktok">
-                        <i class="fab fa-tiktok"></i>
-                        <span class="sc-tooltip">TikTok</span>
-                    </a>
-                    <a href="https://www.instagram.com/son_cris3012/?__pwa=1" target="_blank" class="sc-social-btn btn-instagram">
-                        <i class="fab fa-instagram"></i>
-                        <span class="sc-tooltip">Instagram</span>
-                    </a>
-                </div>
-            </div>
-        </footer>
+        <!-- FOOTER -->
+         <footer class="sc-contact-footer">
+    <div class="sc-footer-container">
+        <!-- Góc Trái: Text -->
+        <div class="sc-left-content">
+            <span>Design by <span class="sc-brand-name">Sơn Cris</span></span>
+        </div>
+
+        <!-- Góc Phải: Icons -->
+        <div class="sc-right-content">
+            <!-- SĐT -->
+            <a href="tel:0327208690" class="sc-social-btn btn-phone">
+                <i class="fas fa-phone-alt"></i>
+                <span class="sc-tooltip">0327.208.690</span>
+            </a>
+
+            <!-- Facebook -->
+            <a href="https://web.facebook.com/sonsadboiz.12" target="_blank" class="sc-social-btn btn-facebook">
+                <i class="fab fa-facebook-f"></i>
+                <span class="sc-tooltip">Facebook</span>
+            </a>
+
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@chubodoihaybuon" target="_blank" class="sc-social-btn btn-tiktok">
+                <i class="fab fa-tiktok"></i>
+                <span class="sc-tooltip">TikTok</span>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/son_cris3012/?__pwa=1" target="_blank" class="sc-social-btn btn-instagram">
+                <i class="fab fa-instagram"></i>
+                <span class="sc-tooltip">Instagram</span>
+            </a>
+        </div>
+    </div>
+</footer>
     </main>
 
     <!-- Prism.js Scripts -->
@@ -652,7 +1117,28 @@ int CountPrimes(LIST l) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
     
     <script>
-        // Copy Code Functionality
+        // --- POPUP LOGIC ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('welcomeModal').classList.add('active');
+            }, 500); // Hiện sau 0.5s
+        });
+
+        function closeModal() {
+            document.getElementById('welcomeModal').classList.remove('active');
+        }
+
+        // --- DARK MODE LOGIC ---
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            themeToggleBtn.innerHTML = isDark ? 
+                '<i class="fas fa-sun"></i> Chế độ sáng' : 
+                '<i class="fas fa-moon"></i> Chế độ tối';
+        });
+
+        // --- COPY CODE FUNCTIONALITY ---
         document.querySelectorAll('pre').forEach((pre) => {
             const button = document.createElement('button');
             button.innerText = 'Copy';
@@ -684,8 +1170,35 @@ int CountPrimes(LIST l) {
                 });
             });
         });
+
+        // --- SNOWFLAKE GENERATOR ---
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄';
+            snowflake.classList.add('snowflake');
+            
+            // Random vị trí bắt đầu theo chiều ngang
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            
+            // Random kích thước tuyết (nhỏ to khác nhau)
+            snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            
+            // Random thời gian rơi (tốc độ)
+            snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            
+            // Random độ mờ
+            snowflake.style.opacity = Math.random();
+
+            document.body.appendChild(snowflake);
+
+            // Xóa tuyết khi rơi xong để tránh nặng máy
+            setTimeout(() => {
+                snowflake.remove();
+            }, 10000);
+        }
+
+        // Tạo tuyết mỗi 300ms
+        setInterval(createSnowflake, 300);
     </script>
 </body>
 </html>
-
-
